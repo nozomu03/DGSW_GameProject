@@ -60,12 +60,12 @@ public class Player : MonoBehaviour
 
 	void Update()
 	{
-		if (!Global.timeup)
+		if (!Global.Timeup)
 			time += Time.deltaTime;
 
 		if (time > 3f)
 		{
-			Global.timeup = true;
+			Global.Timeup = true;
 			JumpCheck();
 			OutCHeck();
 			viewModel.gravityScale = 1;
@@ -80,7 +80,6 @@ public class Player : MonoBehaviour
 		{
 			Debug.Log("진입");
 			viewModel.velocity = new Vector3(0, 0, 0);
-			//gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + jumppower, transform.position.z);
 			viewModel.AddForce(Vector2.up * JumpPower, ForceMode2D.Impulse);
 		}
 		_viewAngle.z = viewModel.velocity.y * 10f + 20f;
@@ -104,7 +103,7 @@ public class Player : MonoBehaviour
 		{
 			Debug.Log("충돌");
 			anim.SetBool("dead", true);
-			Global.point = pointInt;
+			Global.Point = pointInt;
 		}
 	}
 

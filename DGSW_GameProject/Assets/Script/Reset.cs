@@ -7,7 +7,7 @@ public class Reset : MonoBehaviour {
     public void GameReset()
     {
         SceneManager.LoadScene("SampleScene");
-        Global.timeup = false;
+        Global.Timeup = false;
     }
 
     public void GameExit()

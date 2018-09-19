@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Point : MonoBehaviour {
-    public Text txt;
-	// Use this for initialization
+    public Text Label;
+	
 	void Start () {
-        txt.text = "님 점수: " + Global.point;
+        Label.text = "님 점수: " + Global.Point;
 	}
 }
