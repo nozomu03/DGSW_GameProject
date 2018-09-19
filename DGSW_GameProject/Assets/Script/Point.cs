@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Point : MonoBehaviour {
-    public Text txt;
-	// Use this for initialization
-	void Start () {
-        txt.text = "님 점수: " + Global.point;
+public class Point : MonoBehaviour
+{
+	public Text Label;
+
+	void Start()
+	{
+		Label.text = "님 점수: " + Global.Score;
 	}
 }
