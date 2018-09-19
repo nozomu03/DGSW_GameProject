@@ -5,37 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class CameraControl : MonoBehaviour {
 
-	private float _shakeTimer = 3f;
-	private const float shakeAmount = 4f;
-	private Animator anim;
+    public float shakeTimer = 3f;
+    public float shakeAmount = 4f;
+    Animator anim;
 
-	public float ShakeTimer
-	{
-		get
-		{
-			return _shakeTimer;
-		}
 
-		set
-		{
-			_shakeTimer = value;
-		}
-	}
-
+	// Use this for initialization
 	void Start () {
         anim = GameObject.Find("Chara01").GetComponent<Animator>();
 	}
-
+	
+	// Update is called once per frame
 	void Update () {
-        if (ShakeTimer >= 0 && anim.GetBool("dead")==true && Global.Timeup==true)
+        if (shakeTimer >= 0 && anim.GetBool("dead")==true && Global.timeup==true)
         {
             Vector2 ShakePos = Random.insideUnitCircle * shakeAmount;
+
             transform.position = transform.position + new Vector3(ShakePos.x, ShakePos.y, 0);
 
-			ShakeTimer -= Time.deltaTime;
+            shakeTimer -= Time.deltaTime;
         }
 
-        if (ShakeTimer <= 0)
+        if (shakeTimer <= 0)
+        {
             SceneManager.LoadScene("Dead");
+        }
+
     }
 }

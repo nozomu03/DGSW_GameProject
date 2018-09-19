@@ -3,6 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class Global{
-    public static bool Timeup = false;
-    public static int Score = 0;
+    public static bool timeup = false;
+    public static int point=0;
 }
