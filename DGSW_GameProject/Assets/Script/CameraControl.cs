@@ -30,7 +30,7 @@ public class CameraControl : MonoBehaviour
 
 	void Update()
 	{
-		if (ShakeTimer >= 0 && anim.GetBool("dead") == true && Global.Timeup == true)
+		if (ShakeTimer >= 0 && anim.GetBool("dead") == true && Global.TimeUp == true)
 		{
 			Vector2 ShakePos = Random.insideUnitCircle * shakeAmount;
 			transform.position = transform.position + new Vector3(ShakePos.x, ShakePos.y, 0);
