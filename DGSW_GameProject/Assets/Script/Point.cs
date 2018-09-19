@@ -7,6 +7,6 @@ public class Point : MonoBehaviour {
     public Text Label;
 	
 	void Start () {
-        Label.text = "님 점수: " + Global.Point;
+        Label.text = "님 점수: " + Global.Score;
 	}
 }

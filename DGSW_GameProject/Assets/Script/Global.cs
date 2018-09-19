@@ -4,5 +4,5 @@ using UnityEngine;
 
 public static class Global{
     public static bool Timeup = false;
-    public static int Point = 0;
+    public static int Score = 0;
 }

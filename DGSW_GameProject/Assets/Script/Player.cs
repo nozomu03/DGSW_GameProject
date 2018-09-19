@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-
 	public Text Point
 	{
 		get
@@ -78,13 +77,11 @@ public class Player : MonoBehaviour
 	{
 		if ((Input.touchCount > 0 && anim.GetBool("dead") == false) || (Input.GetKeyDown(KeyCode.Space) && anim.GetBool("dead") == false))
 		{
-			Debug.Log("진입");
-			viewModel.velocity = new Vector3(0, 0, 0);
+			viewModel.velocity = Vector3.zero;
 			viewModel.AddForce(Vector2.up * JumpPower, ForceMode2D.Impulse);
 		}
-		_viewAngle.z = viewModel.velocity.y * 10f + 20f;
-		Quaternion R = Quaternion.Euler(ViewAngle);
-		gameObject.transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, R, 5f);
+		_viewAngle.z = (viewModel.velocity.y * 10f) + 20f;
+		gameObject.transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, Quaternion.Euler(ViewAngle), 5f);
 	}
 
 	void OutCHeck()
@@ -93,26 +90,21 @@ public class Player : MonoBehaviour
 		Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
 		viewPos.x = Mathf.Clamp01(viewPos.x);
 		viewPos.y = Mathf.Clamp01(viewPos.y);
-		Vector3 worldPos = Camera.main.ViewportToWorldPoint(viewPos);
-		transform.position = worldPos;
+		transform.position = Camera.main.ViewportToWorldPoint(viewPos);
 	}
 
 	private void OnCollisionEnter2D(Collision2D other)
 	{
 		if (other.gameObject.tag.Equals("Something") || other.gameObject.tag.Equals("Ground"))
 		{
-			Debug.Log("충돌");
 			anim.SetBool("dead", true);
-			Global.Point = pointInt;
+			Global.Score = pointInt;
 		}
 	}
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.gameObject.tag.Equals("Something"))
-		{
 			pointInt += 1;
-			Debug.Log("통과: " + pointInt);
-		}
 	}
 }

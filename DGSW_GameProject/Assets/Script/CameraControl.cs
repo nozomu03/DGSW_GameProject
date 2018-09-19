@@ -37,6 +37,5 @@ public class CameraControl : MonoBehaviour {
 
         if (ShakeTimer <= 0)
             SceneManager.LoadScene("Dead");
-
     }
 }
