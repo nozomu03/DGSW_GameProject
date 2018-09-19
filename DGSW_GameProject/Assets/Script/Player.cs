@@ -1,82 +1,119 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
-    public UnityEngine.UI.Text point;
+	public Text Point
+	{
+		get
+		{
+			return _point;
+		}
+		private set
+		{
+			_point = value;
+		}
+	}
+	public float JumpPower
+	{
+		get
+		{
+			return _jumpPower;
+		}
+		private set
+		{
+			_jumpPower = value;
+		}
+	}
+	public Vector3 ViewAngle
+	{
+		get
+		{
+			return _viewAngle;
+		}
+		private set
+		{
+			_viewAngle = value;
+		}
+	}
 
-    Rigidbody2D rigidbody;
-    Animator anim;
-    public float jumppower = 5f;
-    public Vector3 lookDirection;
-    int pointint = 0;
-    float time = 0;
-    int touch = 1;
+	private Rigidbody2D viewModel;
+	private Animator anim;
+	private int pointInt = 0;
+	private float time = 0;
 
-    // Use this for initialization
-    void Start () {
-        rigidbody = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        anim.SetBool("dead", false);
-        rigidbody.gravityScale = 0;
-    }
+	private Vector3 _viewAngle;
+	private float _jumpPower;
+	private Text _point;
 
-    // Update is called once per frame
-    void Update () {
-        if(!Global.timeup)
-            time += Time.deltaTime;
+	void Start()
+	{
+		viewModel = GetComponent<Rigidbody2D>();
+		anim = GetComponent<Animator>();
+		anim.SetBool("dead", false);
+		viewModel.gravityScale = 0;
+		JumpPower = 5.0f;
+	}
 
-        if (time > 3f)
-        {
-            Global.timeup = true;
-            JumpCheck();
-            OutCHeck();
-            rigidbody.gravityScale = 1;
-        }
-        
-        point.text = "점수: " + pointint;
-    }
+	void Update()
+	{
+		if (!Global.timeup)
+			time += Time.deltaTime;
 
-    void JumpCheck()
-    {
-        if ((Input.touchCount>0 && anim.GetBool("dead")==false) || (Input.GetKeyDown(KeyCode.Space) && anim.GetBool("dead")==false))
-        {
-            Debug.Log("진입");
-            rigidbody.velocity = new Vector3(0, 0, 0);
-            //gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + jumppower, transform.position.z);
-            rigidbody.AddForce(Vector2.up * jumppower, ForceMode2D.Impulse);
-        }
-        lookDirection.z = rigidbody.velocity.y * 10f + 20f;
-        Quaternion R = Quaternion.Euler(lookDirection);
-        gameObject.transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, R, 5f);
-    }
+		if (time > 3f)
+		{
+			Global.timeup = true;
+			JumpCheck();
+			OutCHeck();
+			viewModel.gravityScale = 1;
+		}
 
-    void OutCHeck()
-    {
-        rigidbody = GetComponent<Rigidbody2D>();
-        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
-        viewPos.x = Mathf.Clamp01(viewPos.x);
-        viewPos.y = Mathf.Clamp01(viewPos.y);
-        Vector3 worldPos = Camera.main.ViewportToWorldPoint(viewPos);
-        transform.position = worldPos; //좌표를 적용한다.
-    }
+		Point.text = "점수: " + pointInt;
+	}
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if(other.gameObject.tag.Equals("Something")|| other.gameObject.tag.Equals("Ground")){
-            Debug.Log("충돌");
-            anim.SetBool("dead", true);
-            Global.point = pointint;
-        }     
-    }
+	void JumpCheck()
+	{
+		if ((Input.touchCount > 0 && anim.GetBool("dead") == false) || (Input.GetKeyDown(KeyCode.Space) && anim.GetBool("dead") == false))
+		{
+			Debug.Log("진입");
+			viewModel.velocity = new Vector3(0, 0, 0);
+			//gameObject.transform.position = new Vector3(transform.position.x, transform.position.y + jumppower, transform.position.z);
+			viewModel.AddForce(Vector2.up * JumpPower, ForceMode2D.Impulse);
+		}
+		_viewAngle.z = viewModel.velocity.y * 10f + 20f;
+		Quaternion R = Quaternion.Euler(ViewAngle);
+		gameObject.transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, R, 5f);
+	}
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.tag.Equals("Something"))
-        {
-            pointint += 1;
-            Debug.Log("통과: "+pointint);
-        }
-    }
+	void OutCHeck()
+	{
+		viewModel = GetComponent<Rigidbody2D>();
+		Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
+		viewPos.x = Mathf.Clamp01(viewPos.x);
+		viewPos.y = Mathf.Clamp01(viewPos.y);
+		Vector3 worldPos = Camera.main.ViewportToWorldPoint(viewPos);
+		transform.position = worldPos;
+	}
+
+	private void OnCollisionEnter2D(Collision2D other)
+	{
+		if (other.gameObject.tag.Equals("Something") || other.gameObject.tag.Equals("Ground"))
+		{
+			Debug.Log("충돌");
+			anim.SetBool("dead", true);
+			Global.point = pointInt;
+		}
+	}
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.gameObject.tag.Equals("Something"))
+		{
+			pointInt += 1;
+			Debug.Log("통과: " + pointInt);
+		}
+	}
 }
